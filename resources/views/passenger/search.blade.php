@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('passenger.layouts.app')
 
 @section('title', 'Search Bus')
 

@@ -13,6 +13,13 @@ class Schedule extends Model {
         'fare', 'available_seats', 'status'
     ];
 
+    protected $casts = [
+        'departure_time' => 'datetime',
+        'arrival_time' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function bus() {
         return $this->belongsTo(Bus::class);
     }

@@ -1,31 +1,40 @@
-@extends('layouts.app')
-
+@extends('admin.layouts.app')
+@section('page-title', 'AdminDashboard')
+@section('total-revenue', 'ZMW'.number_format($totalRevenue, 2))
+@section('active-users', $totalUsers)
 @section('title', 'Admin Dashboard')
 
 @section('content')
-<h3>Admin Dashboard</h3>
-<div class="row mt-3">
-    <div class="col-md-4">
-        <div class="card text-bg-primary mb-3">
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Total Users</h5>
-                <p class="card-text fs-4">{{ $users }}</p>
+                <h4>{{ $totalUsers }}</h4>
+                <small>Total Users</small>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-bg-success mb-3">
+    <div class="col-md-3">
+        <div class="card bg-success text-white shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Total Bookings</h5>
-                <p class="card-text fs-4">{{ $bookings }}</p>
+                <h4>{{ $totalOperators }}</h4>
+                <small>Total Operators</small>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card text-bg-warning mb-3">
+    <div class="col-md-3">
+        <div class="card bg-info text-white shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Revenue</h5>
-                <p class="card-text fs-4">${{ number_format($revenue, 2) }}</p>
+                <h4>{{ $totalBookings }}</h4>
+                <small>Total Bookings</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white shadow-sm">
+            <div class="card-body">
+                <h4>ZMW{{ number_format($totalRevenue, 2) }}</h4>
+                <small>Total Revenue</small>
             </div>
         </div>
     </div>

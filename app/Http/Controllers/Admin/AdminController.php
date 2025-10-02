@@ -1,18 +1,29 @@
 <?php
 
+<?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Booking;
-use App\Models\Payment;
+use App\Models\Bus;
 
-class AdminController extends Controller {
-    public function dashboard() {
-        $users = User::count();
-        $bookings = Booking::count();
-        $revenue = Payment::where('status', 'successful')->sum('amount');
+class DashboardController extends Controller
+{
+    public function index()
+    {
+        $totalUsers = User::count();
+        $totalOperators = User::where('role', 'operator')->count();
+        $totalBookings = Booking::count();
+        $totalRevenue = Booking::where('payment_status', 'paid')
+            ->with('schedule')
+            ->get()
+            ->sum(fn($b) => $b->schedule->fare);
 
-        return view('admin.dashboard', compact('users', 'bookings', 'revenue'));
+        return view('admin.dashboard', compact(
+            'totalUsers', 'totalOperators', 'totalBookings', 'totalRevenue'
+        ));
     }
 }
+

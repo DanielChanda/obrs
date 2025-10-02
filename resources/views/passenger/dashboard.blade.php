@@ -1,44 +1,100 @@
-@extends('layouts.app')
+@extends('passenger.layouts.app')
 
 @section('title', 'Passenger Dashboard')
+@section('page-title', 'My Dashboard')
+
+@section('header-actions')
+    <a href="{{ route('passenger.search.form') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-1"></i> Book New Trip
+    </a>
+@endsection
 
 @section('content')
-<h3>My Bookings</h3>
-@if(session('success'))
-  <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+<div class="row">
+    <!-- Quick Stats -->
+    <div class="col-md-3 mb-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h4 class="mb-0">{{ $totalBookings }}</h4>
+                        <small>Total Bookings</small>
+                    </div>
+                    <i class="fas fa-ticket-alt fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h4 class="mb-0">{{ $upcomingTrips }}</h4>
+                        <small>Upcoming Trips</small>
+                    </div>
+                    <i class="fas fa-calendar-check fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h4 class="mb-0">{{ $completedTrips }}</h4>
+                        <small>Completed Trips</small>
+                    </div>
+                    <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h4 class="mb-0">ZMW{{ number_format($totalSpent, 2) }}</h4>
+                        <small>Total Spent</small>
+                    </div>
+                    <i class="fas fa-dollar-sign fa-2x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table class="table table-bordered mt-3">
-    <thead>
-        <tr>
-            <th>Bus</th>
-            <th>Route</th>
-            <th>Departure</th>
-            <th>Seat</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    @forelse($bookings as $booking)
-        <tr>
-            <td>{{ $booking->schedule->bus->bus_number }}</td>
-            <td>{{ $booking->schedule->route->origin }} → {{ $booking->schedule->route->destination }}</td>
-            <td>{{ $booking->schedule->departure_time }}</td>
-            <td>{{ $booking->seat_number }}</td>
-            <td>{{ ucfirst($booking->status) }}</td>
-            <td>
-                @if($booking->payment_status === 'paid')
-                    <a href="{{ route('passenger.ticket', $booking->id) }}" class="btn btn-sm btn-success">View Ticket</a>
-                    <a href="{{ route('passenger.ticket.download', $booking->id) }}" class="btn btn-sm btn-primary">Download PDF</a>
-                @else
-                    <span class="badge bg-secondary">Unpaid</span>
-                @endif
-            </td>
-        </tr>
-    @empty
-        <tr><td colspan="5" class="text-center">No bookings yet</td></tr>
-    @endforelse
-    </tbody>
-</table>
+<!-- Recent Bookings -->
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-history me-2 text-primary"></i>Recent Bookings
+        </h5>
+    </div>
+    <div class="card-body">
+        @forelse($bookings as $booking)
+            @include('passenger.partials.booking-card', ['booking' => $booking])
+        @empty
+            <div class="text-center py-5">
+                <i class="fas fa-ticket-alt fa-4x text-muted mb-3"></i>
+                <h5 class="text-muted">No bookings yet</h5>
+                <p class="text-muted">Start by booking your first trip!</p>
+                <a href="{{ route('passenger.search.form') }}" class="btn btn-primary">
+                    <i class="fas fa-search me-1"></i> Search Trips
+                </a>
+            </div>
+        @endforelse
+        
+        @if($bookings->hasPages())
+            <div class="d-flex justify-content-center mt-4">
+                {{ $bookings->links() }}
+            </div>
+        @endif
+    </div>
+</div>
 @endsection

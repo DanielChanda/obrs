@@ -12,9 +12,39 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller {
+    
     public function dashboard() {
+        $bookings = Booking::where('user_id', Auth::id())
+            ->with('schedule.bus', 'schedule.route')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        $stats = [
+            'totalBookings' => Booking::where('user_id', Auth::id())->count(),
+            'upcomingTrips' => Booking::where('user_id', Auth::id())
+                ->whereHas('schedule', function($q) {
+                    $q->where('departure_time', '>', now());
+                })
+                ->where('status', 'confirmed')
+                ->count(),
+            'completedTrips' => Booking::where('user_id', Auth::id())
+                ->where('status', 'completed')
+                ->count(),
+            'totalSpent' => Booking::where('user_id', Auth::id())
+                ->where('payment_status', 'paid')
+                ->with('schedule')
+                ->get()
+                ->sum(function($booking) {
+                    return $booking->schedule->fare;
+                })
+        ];
+        
+        return view('passenger.dashboard', array_merge(['bookings' => $bookings], $stats));
+    }
+
+    public function bookings() {
         $bookings = Booking::where('user_id', Auth::id())->with('schedule.bus', 'schedule.route')->get();
-        return view('passenger.dashboard', compact('bookings'));
+        return view('passenger.my_bookings', compact('bookings'));
     }
 
     public function search(Request $request) {
