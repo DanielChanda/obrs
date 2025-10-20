@@ -10,7 +10,7 @@
     <p><strong>Bus:</strong> {{ $booking->schedule->bus->bus_number }}</p>
     <p><strong>Route:</strong> {{ $booking->schedule->route->origin }} → {{ $booking->schedule->route->destination }}</p>
     <p><strong>Departure:</strong> {{ $booking->schedule->departure_time }}</p>
-    <p><strong>Fare:</strong> ${{ $booking->schedule->fare }}</p>
+    <p><strong>Fare:</strong> ZMW{{ $booking->schedule->fare }}</p>
   </div>
 </div>
 

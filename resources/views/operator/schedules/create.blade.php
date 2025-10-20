@@ -89,7 +89,7 @@
                     
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="fare" class="form-label">Ticket Fare ($) *</label>
+                            <label for="fare" class="form-label">Ticket Fare (ZMW) *</label>
                             <input type="number" step="0.01" class="form-control @error('fare') is-invalid @enderror" 
                                    id="fare" name="fare" value="{{ old('fare') }}" 
                                    min="1" max="1000" required>
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="mb-1"><strong>${busText}</strong></p>
                 <p class="mb-1">${routeText}</p>
                 <p class="mb-1">Departure: ${new Date(departure).toLocaleString()}</p>
-                <p class="mb-1">Fare: $${parseFloat(fare).toFixed(2)}</p>
+                <p class="mb-1">Fare: ZMW${parseFloat(fare).toFixed(2)}</p>
                 <small>Available seats: ${capacity}</small>
             `;
         } else {

@@ -289,7 +289,9 @@
                     <a class="nav-link @if(request()->routeIs('admin.users.*')) active @endif" href="{{ route('admin.users.index') }}">
                         <i class="fas fa-users"></i>
                         <span class="nav-text">User Management</span>
-                        <span class="nav-badge">@yield('active-users', 'N/A')</span>
+                        <!--<span class="nav-badge">@yield('active-users', 'N/A')</span>-->
+                        <span class="nav-badge">{{$totalUsers}}</span>
+
                     </a>
                 </li>
                 
@@ -311,7 +313,8 @@
                     <a class="nav-link @if(request()->routeIs('admin.bookings.*')) active @endif" href="#">
                         <i class="fas fa-ticket-alt"></i>
                         <span class="nav-text">Bookings</span>
-                        <span class="nav-badge">@yield('todays-booking', 'N/A')</span>
+                        <!--<span class="nav-badge">@yield('todays-booking', 'N/A')</span> -->
+                        <span class="nav-badge">{{ $totalBookings }}</span>
                     </a>
                 </li>
             </ul>
@@ -327,6 +330,7 @@
                     </a>
                 </li>
                 
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fas fa-chart-line"></i>
@@ -340,11 +344,14 @@
                         <span class="nav-text">Route Analytics</span>
                     </a>
                 </li>
+                -->
             </ul>
 
             <hr class="sidebar-divider">
 
             <!-- System Section -->
+            
+            <!--
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
@@ -368,6 +375,7 @@
                     </a>
                 </li>
             </ul>
+            -->
         </div>
 
         <!-- Sidebar Footer -->

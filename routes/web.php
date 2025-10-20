@@ -67,6 +67,8 @@ Route::prefix('operator')->name('operator.')->middleware(['auth', 'operator'])->
     
     // Bookings
     Route::resource('bookings', OperatorBookingController::class);
+    Route::delete('/{booking}/cancel', [ProfileController::class, 'cancelBooking'])
+        ->name('bookings.cancel');
     
     // Export routes
     Route::get('/bookings/export/csv', [BookingExportController::class, 'exportCsv'])->name('bookings.export.csv');

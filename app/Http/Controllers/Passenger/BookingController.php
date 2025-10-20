@@ -100,13 +100,31 @@ class BookingController extends Controller {
     }
 
     public function showSearchForm() {
+        //get the current time
         $now = now();
-        $routeIds = \App\Models\Schedule::where('available_seats', '>', 0)
-            ->where('departure_time', '>', $now)
+
+        // Fetch route IDs with available seats and future departure times
+        $routeIds = Schedule::where('available_seats', '>', 0)
+            ->where('departure_time', '<', $now)
             ->pluck('route_id');
+
+        // Fetch schedules with related route information
+        $schedules = \App\Models\Schedule::with('route')
+            ->select('id', 'route_id', 'departure_time')
+            ->get();
+        
+        // Fetch all valid origin-destination pairs from the Route model.
+        // This ensures only real, available trips are selectable.
+        $trips = Route::whereIn('id', $routeIds)
+            ->select('origin', 'destination')
+            ->get();
+        
+        // get distinct origins and destinations for dropdowns
         $origins = Route::whereIn('id', $routeIds)->distinct()->pluck('origin');
         $destinations = Route::whereIn('id', $routeIds)->distinct()->pluck('destination');
-        return view('passenger.search', compact('origins', 'destinations'));
+
+        // Pass $schedules along with $trips, $origins, and $destinations
+        return view('passenger.search', compact('origins', 'destinations', 'trips', 'schedules'));
     }
 
     public function ticket(Booking $booking) {

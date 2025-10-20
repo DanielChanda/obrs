@@ -276,7 +276,6 @@
             font-weight: 600;
             border-radius: 50px;
             transition: all 0.3s ease;
-            margin-top: 2rem;
         }
 
         .btn-cta:hover {

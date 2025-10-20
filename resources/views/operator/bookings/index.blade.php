@@ -143,7 +143,7 @@
                                     <span class="badge bg-secondary fs-6">#{{ $booking->seat_number }}</span>
                                 </td>
                                 <td>
-                                    <strong class="text-primary">${{ number_format($booking->schedule->fare, 2) }}</strong>
+                                    <strong class="text-primary">ZMW{{ number_format($booking->schedule->fare, 2) }}</strong>
                                 </td>
                                 <td>
                                     <span class="badge bg-{{ match($booking->status) {
@@ -198,7 +198,7 @@
                                             </form>
                                         @endif
                                         @if($booking->status === 'confirmed' && $booking->schedule->departure_time <= now())
-                                            <form action="{{ route('operator.bookings.check-in', $booking->id) }}" 
+                                            <form action="{{-- route('operator.bookings.check-in', $booking->id) --}}" 
                                                   method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')
@@ -268,7 +268,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <h4 class="mb-0">${{ number_format($bookings->sum(function($b) { return $b->schedule->fare; }), 2) }}</h4>
+                        <h4 class="mb-0">ZMW{{ number_format($bookings->sum(function($b) { return $b->schedule->fare; }), 2) }}</h4>
                         <small>Total Revenue</small>
                     </div>
                     <i class="fas fa-dollar-sign fa-2x opacity-50"></i>
