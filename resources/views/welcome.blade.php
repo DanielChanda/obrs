@@ -378,7 +378,7 @@
                 <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
                 @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{-- route('dashboard') --}}">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
@@ -412,7 +412,7 @@
                 <p class="hero-subtitle">Experience the future of bus travel with our seamless online reservation system. Book tickets anytime, anywhere with just a few clicks.</p>
                 <div class="hero-buttons">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="btn btn-hero me-3">
+                        <a href="{{-- route('dashboard') --}}" class="btn btn-hero me-3">
                             <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
                         </a>
                     @else
@@ -639,7 +639,7 @@
         <h2 class="cta-title">Ready to Start Your Journey?</h2>
         <p class="lead mb-4">Join thousands of satisfied travelers and experience hassle-free bus booking today.</p>
         @auth
-            <a href="{{ route('dashboard') }}" class="btn btn-cta">
+            <a href="{{-- route('dashboard') --}}" class="btn btn-cta">
                 <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
             </a>
         @else

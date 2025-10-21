@@ -33,7 +33,7 @@
     <div class="col-md-3">
         <div class="card bg-warning text-white shadow-sm">
             <div class="card-body">
-                <h4>${{ number_format($revenue, 2) }}</h4>
+                <h4>ZMW{{ number_format($revenue, 2) }}</h4>
                 <small>Total Revenue</small>
             </div>
         </div>
@@ -67,7 +67,7 @@
                     <tr>
                         <td>{{ \Carbon\Carbon::create()->month($stat->month)->format('F') }}</td>
                         <td>{{ $stat->total }}</td>
-                        <td>${{ number_format($stat->revenue, 2) }}</td>
+                        <td>ZMW{{ number_format($stat->revenue, 2) }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -92,7 +92,7 @@
                     borderWidth: 1
                 },
                 {
-                    label: 'Revenue ($)',
+                    label: 'Revenue (ZMW)',
                     data: @json($revenuePerMonth),
                     type: 'line',
                     borderColor: 'rgba(255, 206, 86, 1)',
@@ -109,7 +109,7 @@
                     beginAtZero: true,
                     ticks: {
                         callback: function(value) {
-                            return '$' + value;
+                            return 'ZMW' + value;
                         }
                     }
                 }

@@ -64,6 +64,7 @@ Route::prefix('operator')->name('operator.')->middleware(['auth', 'operator'])->
     
     // Schedules
     Route::resource('schedules', ScheduleController::class);
+    Route::patch('schedules/{schedule}/cancel', [ScheduleController::class, 'cancel'])->name('schedules.cancel');
     
     // Bookings
     Route::resource('bookings', OperatorBookingController::class);

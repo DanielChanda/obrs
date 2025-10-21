@@ -109,7 +109,7 @@
                                     <small class="text-muted">to {{ $schedule->arrival_time->format('g:i A') }}</small>
                                 </td>
                                 <td>
-                                    <strong class="text-primary">${{ number_format($schedule->fare, 2) }}</strong>
+                                    <strong class="text-primary">ZMW{{ number_format($schedule->fare, 2) }}</strong>
                                     <br>
                                     <small class="text-muted">{{ $schedule->available_seats }} / {{ $schedule->bus->capacity }} seats</small>
                                 </td>
@@ -196,7 +196,7 @@
                     Showing {{ $schedules->firstItem() }} to {{ $schedules->lastItem() }} of {{ $schedules->total() }} schedules
                 </div>
                 <div>
-                    {{ $schedules->appends($filters)->links() }}
+                    {{ $schedules->appends($filters)->links(('pagination::bootstrap-5')) }}
                 </div>
             </div>
         @else
@@ -267,7 +267,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <h4 class="mb-0">${{ number_format($schedules->sum('fare'), 2) }}</h4>
+                        <h4 class="mb-0">ZMW{{ number_format($schedules->sum('fare'), 2) }}</h4>
                         <small>Potential Revenue</small>
                     </div>
                     <i class="fas fa-dollar-sign fa-2x opacity-50"></i>

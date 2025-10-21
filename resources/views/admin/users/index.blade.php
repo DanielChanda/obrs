@@ -96,7 +96,7 @@
                 </table>
             </div>
 
-            {{ $users->appends($filters)->links() }}
+            {{ $users->appends($filters)->links(('pagination::bootstrap-5')) }}
         @else
             <p class="text-center text-muted py-5">No users found.</p>
         @endif

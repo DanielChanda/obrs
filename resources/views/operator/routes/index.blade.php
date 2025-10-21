@@ -132,7 +132,7 @@
                     Showing {{ $routes->firstItem() }} to {{ $routes->lastItem() }} of {{ $routes->total() }} routes
                 </div>
                 <div>
-                    {{ $routes->links() }}
+                    {{ $routes->links(('pagination::bootstrap-5')) }}
                 </div>
             </div>
         @else

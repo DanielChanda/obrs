@@ -221,7 +221,7 @@
                     Showing {{ $bookings->firstItem() }} to {{ $bookings->lastItem() }} of {{ $bookings->total() }} bookings
                 </div>
                 <div>
-                    {{ $bookings->appends($filters)->links() }}
+                    {{ $bookings->appends($filters)->links(('pagination::bootstrap-5')) }}
                 </div>
             </div>
         @else

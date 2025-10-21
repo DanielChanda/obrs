@@ -130,7 +130,7 @@
                     Showing {{ $buses->firstItem() }} to {{ $buses->lastItem() }} of {{ $buses->total() }} buses
                 </div>
                 <div>
-                    {{ $buses->links() }}
+                    {{ $buses->links(('pagination::bootstrap-5')) }}
                 </div>
             </div>
         @else

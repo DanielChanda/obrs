@@ -222,7 +222,7 @@
                             </button>
 
                             <!-- Social Registration (Optional) -->
-                            <div class="text-center mb-4">
+                            <!-- <div class="text-center mb-4">
                                 <div class="position-relative">
                                     <hr>
                                     <span class="position-absolute top-50 start-50 translate-middle bg-light px-3 text-muted small">
@@ -237,7 +237,7 @@
                                         <i class="fab fa-apple me-2"></i>Apple
                                     </button>
                                 </div>
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                 </div>

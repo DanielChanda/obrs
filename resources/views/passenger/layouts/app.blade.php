@@ -60,13 +60,13 @@
     </main>
     
     <!-- Footer -->
-    <footer class="bg-dark text-light py-3 mt-5">
+    <footer class="bg-dark text-light py-3 mt-5 fixed-bottom">
         <div class="container text-center">
             <p class="mb-0">&copy; {{ date('Y') }} Online Bus Reservation System. All rights reserved.</p>
         </div>
     </footer>
     
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }} }}"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }} "></script>
     @stack('scripts')
 </body>
 </html>

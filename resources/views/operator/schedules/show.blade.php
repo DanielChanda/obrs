@@ -83,7 +83,7 @@
                         <td class="fw-semibold">Fare:</td>
                         <td>
                             <i class="fas fa-dollar-sign text-success me-2"></i>
-                            ${{ number_format($schedule->fare, 2) }}
+                            ZMW{{ number_format($schedule->fare, 2) }}
                         </td>
                     </tr>
                     <tr>
@@ -122,7 +122,7 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <span>Revenue:</span>
-                    <strong class="text-success">${{ number_format($stats['revenue'], 2) }}</strong>
+                    <strong class="text-success">ZMW{{ number_format($stats['revenue'], 2) }}</strong>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <span>Occupancy Rate:</span>

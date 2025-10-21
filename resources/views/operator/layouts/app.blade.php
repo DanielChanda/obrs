@@ -72,8 +72,8 @@
         </div>
     </footer>
     
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }} }}"></script>
-    <script src="js/chart.min.js"></script>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/chart.min.js') }}"></script>
 
     @stack('scripts')
 </body>
