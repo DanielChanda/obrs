@@ -300,21 +300,21 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.buses.*')) active @endif" href="#">
+                    <a class="nav-link @if(request()->routeIs('admin.buses.*')) active @endif" href="{{ route('admin.buses.index') }}">
                         <i class="fas fa-bus"></i>
                         <span class="nav-text">Bus Management</span>
                     </a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.routes.*')) active @endif" href="#">
+                    <a class="nav-link @if(request()->routeIs('admin.routes.*')) active @endif" href="{{ route('admin.routes.index') }}">
                         <i class="fas fa-route"></i>
                         <span class="nav-text">Routes & Schedules</span>
                     </a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.bookings.*')) active @endif" href="#">
+                    <a class="nav-link @if(request()->routeIs('admin.bookings.*')) active @endif" href="{{ route('admin.bookings.index') }}">
                         <i class="fas fa-ticket-alt"></i>
                         <span class="nav-text">Bookings</span>
                         <!--<span class="nav-badge">@yield('todays-booking', 'N/A')</span> -->

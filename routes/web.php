@@ -14,6 +14,9 @@ use App\Http\Controllers\Operator\ReportController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\BusController as AdminBusController;
+use App\Http\Controllers\Admin\RouteController as AdminRouteController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 
 
@@ -94,6 +97,11 @@ Route::prefix('admin')
         
         // User Management
         Route::resource('users', UserController::class);
+
+        // Bus, Route, and Booking Management
+        Route::resource('buses', AdminBusController::class);
+        Route::resource('routes', AdminRouteController::class);
+        Route::resource('bookings', AdminBookingController::class);
 
         // Reports
         Route::get('reports', [AdminReportController::class, 'index'])->name('reports.index');

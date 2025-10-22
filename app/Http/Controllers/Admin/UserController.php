@@ -49,6 +49,23 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        // Eager load relationships based on user role
+        if ($user->role === 'passenger') {
+            $user->load(['bookings.schedule.route', 'bookings.schedule.bus']);
+        } elseif ($user->role === 'operator') {
+            $user->load(['buses', 'routes']);
+        }
+
+        return view('admin.users.show', compact('user'));
+    }
+
+
     public function edit(User $user)
     {
         return view('admin.users.edit', compact('user'));
