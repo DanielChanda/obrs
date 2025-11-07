@@ -9,7 +9,7 @@ class Booking extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'schedule_id', 'seat_number', 'status', 'payment_status'
+        'user_id', 'schedule_id', 'seat_number', 'status', 'payment_status', 'transaction_reference'
     ];
 
     protected $casts = [

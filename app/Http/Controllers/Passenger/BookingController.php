@@ -7,11 +7,18 @@ use App\Models\Booking;
 use App\Models\Route;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use App\Services\FlutterwaveService;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller {
+    protected $flutterwaveService;
+
+    public function __construct(FlutterwaveService $flutterwaveService)
+    {
+        $this->flutterwaveService = $flutterwaveService;
+    }
     
     public function dashboard() {
         $bookings = Booking::where('user_id', Auth::id())
@@ -88,6 +95,11 @@ class BookingController extends Controller {
     }
 
     public function payment(Booking $booking) {
+        // Verify booking belongs to user and is unpaid
+        if ($booking->user_id !== Auth::id() || $booking->payment_status === 'paid') {
+            return redirect()->route('passenger.dashboard')->with('error', 'Invalid booking access.');
+        }
+
         return view('passenger.payment', compact('booking'));
     }
 
@@ -99,13 +111,167 @@ class BookingController extends Controller {
         return redirect()->route('passenger.dashboard')->with('success', 'Payment successful! Ticket generated.');
     }
 
+        /**
+     * Initialize Flutterwave payment
+     */
+    public function initializePayment(Request $request, Booking $booking) {
+        // Verify booking belongs to user
+        if ($booking->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Check if booking is already paid
+        if ($booking->payment_status === 'paid') {
+            return response()->json(['error' => 'Booking already paid'], 400);
+        }
+
+        $user = Auth::user();
+        $schedule = $booking->schedule;
+
+        $paymentData = [
+            'transaction_reference' => $this->flutterwaveService->generateTransactionReference(),
+            'amount' => $schedule->fare,
+            'currency' => 'ZMW', // or your preferred currency
+            'customer_email' => $user->email,
+            'customer_name' => $user->name,
+            'customer_phone' => $user->phone ?? '',
+            'redirect_url' => route('passenger.payment.callback'),
+            'title' => 'Bus Ticket Payment',
+            'description' => "Bus ticket from {$schedule->route->origin} to {$schedule->route->destination}",
+            'meta' => [
+                'booking_id' => $booking->id,
+                'user_id' => $user->id,
+                'schedule_id' => $schedule->id,
+            ],
+        ];
+
+        // Store transaction reference in booking
+        $booking->update([
+            'transaction_reference' => $paymentData['transaction_reference']
+        ]);
+
+        $response = $this->flutterwaveService->initializePayment($paymentData);
+
+        if ($response['status'] === 'success') {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Payment initialized successfully',
+                'data' => [
+                    'payment_url' => $response['data']['link'],
+                    'transaction_reference' => $paymentData['transaction_reference'],
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to initialize payment',
+            'data' => $response
+        ], 400);
+    }
+
+     /**
+     * Handle Flutterwave webhook
+     */
+    public function handleWebhook(Request $request) {
+        $signature = $request->header('verif-hash');
+        $payload = $request->all();
+
+        // Validate webhook signature (you might want to skip this in local development)
+        if (config('flutterwave.secret_hash') && $signature !== config('flutterwave.secret_hash')) {
+            \Log::warning('Invalid Flutterwave webhook signature');
+            return response()->json(['error' => 'Invalid signature'], 401);
+        }
+
+        $event = $payload['event'] ?? '';
+        $data = $payload['data'] ?? [];
+
+        \Log::info("Flutterwave Webhook: {$event}", $payload);
+
+        switch ($event) {
+            case 'charge.completed':
+                return $this->handleChargeCompleted($data);
+            
+            default:
+                \Log::info("Unhandled webhook event: {$event}");
+                return response()->json(['status' => 'ignored'], 200);
+        }
+    }
+
+    /**
+     * Handle payment callback from Flutterwave
+     */
+    public function paymentCallback(Request $request) {
+        $status = $request->query('status');
+        $transactionId = $request->query('transaction_id');
+        $txRef = $request->query('tx_ref');
+
+        // Find booking by transaction reference
+        $booking = Booking::where('transaction_reference', $txRef)->first();
+
+        if (!$booking) {
+            return redirect()->route('passenger.dashboard')->with('error', 'Invalid transaction reference.');
+        }
+
+        if ($status === 'successful') {
+            // Verify the transaction
+            $verification = $this->flutterwaveService->verifyTransaction($transactionId);
+
+            if ($verification['status'] === 'success' && 
+                $verification['data']['status'] === 'successful' &&
+                $verification['data']['tx_ref'] === $txRef) {
+                
+                // Payment successful - update booking
+                $booking->update([
+                    'payment_status' => 'paid',
+                    'status' => 'confirmed',
+                    'payment_method' => 'flutterwave',
+                    'paid_at' => now(),
+                    'transaction_id' => $transactionId
+                ]);
+
+                return redirect()->route('passenger.ticket', $booking->id)
+                    ->with('success', 'Payment completed successfully! Your ticket has been generated.');
+            }
+        }
+    }
+
+    /**
+     * Handle completed charge webhook
+     */
+    protected function handleChargeCompleted($data) {
+        $txRef = $data['tx_ref'] ?? '';
+        $transactionId = $data['id'] ?? '';
+        $status = $data['status'] ?? '';
+
+        $booking = Booking::where('transaction_reference', $txRef)->first();
+
+        if (!$booking) {
+            \Log::warning("Booking not found for transaction reference: {$txRef}");
+            return response()->json(['error' => 'Booking not found'], 404);
+        }
+
+        if ($status === 'successful' && $booking->payment_status !== 'paid') {
+            $booking->update([
+                'payment_status' => 'paid',
+                'status' => 'confirmed',
+                'paid_at' => now(),
+                'transaction_id' => $transactionId
+            ]);
+
+            \Log::info("Booking {$booking->id} payment confirmed via webhook");
+        }
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
     public function showSearchForm() {
         //get the current time
         $now = now();
 
         // Fetch route IDs with available seats and future departure times
         $routeIds = Schedule::where('available_seats', '>', 0)
-            ->where('departure_time', '<', $now)
+            ->where('departure_time', '>', $now)
             ->pluck('route_id');
 
         // Fetch schedules with related route information

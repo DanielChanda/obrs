@@ -51,6 +51,12 @@ Route::middleware(['auth'])->group(function() {
         ->name('passenger.profile.booking-details');
     Route::delete('/bookings/{booking}/cancel', [ProfileController::class, 'cancelBooking'])
         ->name('passenger.bookings.cancel');
+    
+    //payment
+    Route::get('/payment/{booking}', [BookingController::class, 'payment'])->name('passenger.payment');
+    Route::post('/payment/{booking}', [BookingController::class, 'processPayment'])->name('passenger.processPayment');
+    Route::post('/payment/{booking}/initialize', [BookingController::class, 'initializePayment'])->name('passenger.payment.initialize');
+    Route::get('passenger/payment/callback', [BookingController::class, 'paymentCallback'])->name('passenger.payment.callback');
 });
 
 // Operator
@@ -115,3 +121,10 @@ Route::prefix('admin')
 //payment
 Route::get('/payment/{booking}', [BookingController::class, 'payment'])->name('passenger.payment');
 Route::post('/payment/{booking}', [BookingController::class, 'processPayment'])->name('passenger.processPayment');
+Route::post('/payment/{booking}/initialize', [BookingController::class, 'initializePayment'])->name('passenger.payment.initialize');
+Route::get('/payment/callback', [BookingController::class, 'paymentCallback'])->name('passenger.payment.callback');
+
+
+Route::post('/webhook/flutterwave', [BookingController::class, 'handleWebhook'])
+    ->name('webhook.flutterwave')
+    ->withoutMiddleware(['web', 'verify.csrf.token']);
