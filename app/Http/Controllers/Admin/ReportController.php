@@ -94,21 +94,40 @@ class ReportController extends Controller
     /**
      * Get monthly statistics with optimized query
      */
-    private function getMonthlyStatistics(?int $year = null)
-    {
-        return Booking::select([
-                DB::raw('YEAR(bookings.created_at) as year'),
-                DB::raw('MONTH(bookings.created_at) as month'),
-                DB::raw('COUNT(*) as total_bookings'),
-                DB::raw('SUM(CASE WHEN bookings.payment_status = "paid" THEN schedules.fare ELSE 0 END) as revenue')
-            ])
-            ->join('schedules', 'bookings.schedule_id', '=', 'schedules.id')
-            ->when($year, fn($query) => $query->whereYear('bookings.created_at', $year))
-            ->groupBy('year', 'month')
-            ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
-            ->get();
+    private function getMonthlyStatistics($year = null)
+{
+    $connection = DB::connection();
+    $driver = $connection->getDriverName();
+    
+    $query = DB::table('bookings')
+        ->join('schedules', 'bookings.schedule_id', '=', 'schedules.id');
+    
+    if ($driver === 'sqlite') {
+        $query->select(
+            DB::raw('CAST(strftime("%Y", bookings.created_at) AS INTEGER) as year'),
+            DB::raw('CAST(strftime("%m", bookings.created_at) AS INTEGER) as month'),
+            DB::raw('COUNT(*) as total_bookings'),
+            DB::raw('SUM(CASE WHEN bookings.payment_status = "paid" THEN schedules.fare ELSE 0 END) as revenue')
+        )
+        ->groupBy('year', 'month')
+        ->orderBy('year', 'desc')
+        ->orderBy('month', 'desc');
+    } else {
+        $query->select(
+            DB::raw('YEAR(bookings.created_at) as year'),
+            DB::raw('MONTH(bookings.created_at) as month'),
+            DB::raw('COUNT(*) as total_bookings'),
+            DB::raw('SUM(CASE WHEN bookings.payment_status = "paid" THEN schedules.fare ELSE 0 END) as revenue')
+        )
+        ->groupBy('year', 'month')
+        ->orderBy('year', 'desc')
+        ->orderBy('month', 'desc');
     }
+    
+    $query->when($year, fn($query) => $query->whereYear('bookings.created_at', $year));
+    
+    return $query->get();
+}
 
     /**
      * Transform monthly stats for Chart.js
@@ -137,14 +156,14 @@ class ReportController extends Controller
     /**
      * Get available years for filtering
      */
-    private function getAvailableYears(): array
-    {
-        return Booking::selectRaw('YEAR(created_at) as year')
-            ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year')
-            ->toArray();
-    }
+private function getAvailableYears(): array
+{
+    return Booking::selectRaw('CAST(strftime("%Y", created_at) AS INTEGER) as year')
+        ->distinct()
+        ->orderBy('year', 'desc')
+        ->pluck('year')
+        ->toArray();
+}
 
     public function exportCsv(Request $request)
     {
