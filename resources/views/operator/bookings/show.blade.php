@@ -85,7 +85,7 @@
                     </tr>
                     <tr>
                         <td class="fw-semibold">Total Fare:</td>
-                        <td class="h5 text-primary">${{ number_format($booking->schedule->fare, 2) }}</td>
+                        <td class="h5 text-primary">ZMW{{ number_format($booking->schedule->fare, 2) }}</td>
                     </tr>
                     @if($booking->payment)
                     <tr>
