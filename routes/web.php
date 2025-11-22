@@ -75,10 +75,13 @@ Route::prefix('operator')->name('operator.')->middleware(['auth', 'operator'])->
     Route::resource('schedules', ScheduleController::class);
     Route::patch('schedules/{schedule}/cancel', [ScheduleController::class, 'cancel'])->name('schedules.cancel');
     
-    // Bookings
+    // Bookings44
     Route::resource('bookings', OperatorBookingController::class);
-    Route::delete('/{booking}/cancel', [ProfileController::class, 'cancelBooking'])
+    Route::patch('bookings/{booking}/cancel', [OperatorBookingController::class, 'cancel'])
         ->name('bookings.cancel');
+
+    Route::patch('bookings/{booking}/confirm', [OperatorBookingController::class, 'confirm'])
+        ->name('bookings.confirm');
     
     // Export routes
     Route::get('/bookings/export/csv', [BookingExportController::class, 'exportCsv'])->name('bookings.export.csv');
@@ -127,4 +130,5 @@ Route::get('/payment/callback', [BookingController::class, 'paymentCallback'])->
 
 Route::post('/webhook/flutterwave', [BookingController::class, 'handleWebhook'])
     ->name('webhook.flutterwave')
-    ->withoutMiddleware(['web', 'verify.csrf.token']);
+    ->withoutMiddleware(['web']);
+    //->withoutMiddleware(['web', 'verify.csrf.token']);
