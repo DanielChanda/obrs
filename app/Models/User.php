@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email', 
         'password', 
         'phone', 
@@ -65,4 +66,8 @@ class User extends Authenticatable
     public function isPassenger() { return $this->role === 'passenger'; }
     public function isOperator() { return $this->role === 'operator'; }
     public function isAdmin() { return $this->role === 'admin'; }
+
+    public function getNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

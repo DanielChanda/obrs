@@ -91,23 +91,45 @@
 
                             <!-- Name Field -->
                             <div class="mb-3">
-                                <label for="name" class="form-label fw-semibold">
-                                    <i class="fas fa-user me-2 text-primary"></i>Full Name
+                                <label for="first_name" class="form-label fw-semibold">
+                                    <i class="fas fa-user me-2 text-primary"></i>First name
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="fas fa-user text-muted"></i>
                                     </span>
                                     <input type="text" 
-                                           class="form-control border-start-0 @error('name') is-invalid @enderror" 
-                                           id="name" 
-                                           name="name" 
-                                           value="{{ old('name') }}" 
+                                           class="form-control border-start-0 @error('first_name') is-invalid @enderror" 
+                                           id="first_name" 
+                                           name="first_name" 
+                                           value="{{ old('first_name') }}" 
                                            required 
                                            autofocus
-                                           placeholder="Enter your full name">
+                                           placeholder="Enter your full first_name">
                                 </div>
-                                @error('name')
+                                @error('first_name')
+                                    <div class="invalid-feedback d-block">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
+                                    </div>
+                                @enderror
+
+                                <label for="last_name" class="form-label fw-semibold">
+                                    <i class="fas fa-user me-2 text-primary"></i>Last name
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-user text-muted"></i>
+                                    </span>
+                                    <input type="text" 
+                                           class="form-control border-start-0 @error('last_name') is-invalid @enderror" 
+                                           id="last_name" 
+                                           name="last_name" 
+                                           value="{{ old('last_name') }}" 
+                                           required 
+                                           autofocus
+                                           placeholder="Enter your full last_name">
+                                </div>
+                                @error('last_name')
                                     <div class="invalid-feedback d-block">
                                         <i class="fas fa-exclamation-triangle me-1"></i>{{ $message }}
                                     </div>

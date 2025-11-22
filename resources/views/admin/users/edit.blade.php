@@ -9,8 +9,12 @@
         <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
             @csrf @method('PUT')
             <div class="mb-3">
-                <label>Name</label>
-                <input type="text" name="name" value="{{ $user->name }}" class="form-control" required>
+                <label>First name</label>
+                <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Last name</label>
+                <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label>Email</label>

@@ -34,7 +34,8 @@ class ProfileController extends Controller
         $user = Auth::user();
         
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
             'email' => [
                 'required',
                 'string',
@@ -46,7 +47,7 @@ class ProfileController extends Controller
             'address' => 'nullable|string|max:500',
         ]);
 
-        $user->update($request->only('name', 'email', 'phone', 'address'));
+        $user->update($request->only('first_name', 'last_name', 'email', 'phone', 'address'));
 
         return redirect()->route('passenger.profile.show')
             ->with('success', 'Profile updated successfully!');

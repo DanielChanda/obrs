@@ -14,8 +14,12 @@
         <form method="POST" action="{{ route('operator.profile.update') }}">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Name</label>
-                <input type="text" name="name" value="{{ old('name', $operator->name) }}" class="form-control" required>
+                <label class="form-label">First name</label>
+                <input type="text" name="first_name" value="{{ old('first_name', $operator->first_name) }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Last name</label>
+                <input type="text" name="last_name" value="{{ old('last_name', $operator->last_name) }}" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Phone</label>

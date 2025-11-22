@@ -20,12 +20,14 @@ class ProfileController extends Controller
         $operator = Auth::user();
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|confirmed|min:8',
         ]);
 
-        $operator->name = $request->name;
+        $operator->first_name = $request->first_name;
+        $operator->last_name = $request->last_name;
         $operator->phone = $request->phone;
 
         if ($request->filled('password')) {

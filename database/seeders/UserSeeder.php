@@ -10,7 +10,8 @@ class UserSeeder extends Seeder {
     public function run(): void {
         // Admin
         User::factory()->create([
-            'name' => 'Admin User',
+            'first_name' => 'Admin',
+            'last_name' => 'User',
             'email' => 'admin@obrs.com',
             'role' => 'admin',
             'password' => bcrypt('admin123'),
