@@ -398,7 +398,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                        {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li> --}}
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
@@ -426,7 +426,7 @@
                 
                 <div class="d-flex align-items-center gap-3">
                     <!-- Notifications -->
-                    <div class="dropdown position-relative">
+                    {{-- <div class="dropdown position-relative">
                         <a class="nav-link text-dark position-relative" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-bell fa-lg"></i>
                             <span class="notification-badge">3</span>
@@ -439,10 +439,10 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-center" href="#">View All</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
 
                     <!-- Quick Stats -->
-                    <div class="dropdown">
+                    {{-- <div class="dropdown">
                         <a class="nav-link text-dark" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-chart-pie fa-lg"></i>
                         </a>
@@ -461,7 +461,7 @@
                                 <strong>@yield('active-users', 'N/A')</strong>
                             </li>
                         </ul>
-                    </div>
+                    </div> --}}
 
                     <!-- User Menu -->
                     <div class="dropdown">
@@ -474,7 +474,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li> --}}
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
