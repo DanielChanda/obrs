@@ -49,7 +49,10 @@ class BusController extends Controller
      */
     public function edit(Bus $bus)
     {
-        $operators = User::where('role', 'operator')->pluck('name', 'id');
+        $operators = User::where('role', 'operator')
+            ->get()
+            ->pluck('name', 'id'); // This will use your getNameAttribute accessor
+        
         return view('admin.buses.edit', compact('bus', 'operators'));
     }
 
