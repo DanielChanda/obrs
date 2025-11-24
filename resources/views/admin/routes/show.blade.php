@@ -1,4 +1,4 @@
-@extends('operator.layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'Route Details - ' . $route->origin . ' → ' . $route->destination)
 @section('page-title', 'Route Details')
@@ -6,7 +6,7 @@
 
 @section('header-actions')
     <div class="btn-group">
-        <a href="{{ route('operator.routes.edit', $route->id) }}" class="btn btn-warning">
+        <a href="{{ route('admin.routes.edit', $route->id) }}" class="btn btn-warning">
             <i class="fas fa-edit me-1"></i> Edit Route
         </a>
         <a href="{{ route('operator.schedules.create') }}?route_id={{ $route->id }}" class="btn btn-primary">
@@ -116,10 +116,6 @@
                 <h5 class="card-title mb-0">
                     <i class="fas fa-calendar me-2 text-primary"></i>Recent Schedules
                 </h5>
-                <a href="{{ route('operator.schedules.create') }}?route_id={{ $route->id }}" 
-                   class="btn btn-sm btn-primary">
-                    <i class="fas fa-plus me-1"></i> New Schedule
-                </a>
             </div>
             <div class="card-body">
                 @if($route->schedules->count() > 0)
@@ -147,7 +143,7 @@
                                 </div>
                                 <div class="text-end">
                                     <small class="text-muted d-block">{{ $schedule->departure_time->diffForHumans() }}</small>
-                                    <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -182,14 +178,7 @@
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-md-4 mb-3">
-                        <a href="{{ route('operator.schedules.create') }}?route_id={{ $route->id }}" 
-                           class="btn btn-outline-primary w-100 h-100 py-3">
-                            <i class="fas fa-plus fa-2x mb-2"></i><br>
-                            New Schedule
-                        </a>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <a href="{{ route('operator.routes.edit', $route->id) }}" 
+                        <a href="{{ route('admin.routes.edit', $route->id) }}" 
                            class="btn btn-outline-warning w-100 h-100 py-3">
                             <i class="fas fa-edit fa-2x mb-2"></i><br>
                             Edit Route
@@ -229,7 +218,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="{{ route('operator.routes.destroy', $route->id) }}" method="POST">
+                <form action="{{ route('admin.routes.destroy', $route->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete Route</button>

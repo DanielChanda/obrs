@@ -36,32 +36,64 @@ class RouteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Route $route)
     {
-        //
+        
+        $route->load('schedules.bus');
+        
+        $stats = [
+            'totalSchedules' => $route->schedules->count(),
+            'activeSchedules' => $route->schedules()->where('status', 'scheduled')->count(),
+            'upcomingSchedules' => $route->schedules()
+                ->where('status', 'scheduled')
+                ->where('departure_time', '>', now())
+                ->count(),
+        ];
+
+        return view('admin.routes.show', compact('route', 'stats'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Route $route)
     {
-        //
+        return view('admin.routes.edit', compact('route'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Route $route)
     {
-        //
+
+        $request->validate([
+            'origin' => 'required|string|max:100',
+            'destination' => 'required|string|max:100|different:origin',
+            'distance' => 'nullable|integer|min:1|max:5000',
+        ]);
+
+        $route->update($request->all());
+
+        return redirect()->route('admin.routes.show',['route' => $route])
+            ->with('success', 'Route updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Route $route)
     {
-        //
+        //get all schedules on this route
+        $schedules = $route->schedules;
+
+        //delete each of the schedules
+        foreach($schedules as $schedule){
+            $schedule->delete();
+        }
+
+        //delete the route
+        $route->delete();
+        return redirect()->route('admin.routes.index')->with('success', 'route deleted successfully');
     }
 }

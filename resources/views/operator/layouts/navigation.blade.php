@@ -82,7 +82,7 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item" href="{{ route('operator.profile.index') }}">
-                                <i class="fas fa-building me-2"></i>Operator Profile
+                                <i class="fas fa-building me-2"></i>Profile
                             </a>
                         </li>
                         <li>
