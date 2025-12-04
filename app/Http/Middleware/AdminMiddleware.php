@@ -16,7 +16,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || auth()->user()->role !== 'admin') {
-            // Redirect unauthorized users to home or show 403
+            // Redirect unauthorized users to login page or show an error
             return redirect()->route('login')->withErrors('Access denied!');
         }
 

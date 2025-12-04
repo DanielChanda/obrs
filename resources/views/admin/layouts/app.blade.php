@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - @yield('title')</title>
-    <link href="{{  asset('css/all.min.css') }}"  rel="stylesheet">
+    <link href="{{  asset('css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
-      crossorigin="anonymous" 
-      referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
             --sidebar-width: 280px;
@@ -31,7 +31,7 @@
             width: var(--sidebar-width);
             transition: all 0.3s ease;
             z-index: 1000;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar.collapsed {
@@ -49,7 +49,7 @@
 
         .sidebar-header {
             padding: 1.5rem 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 1rem;
         }
 
@@ -82,7 +82,7 @@
         }
 
         .nav-link {
-            color: rgba(255,255,255,0.8) !important;
+            color: rgba(255, 255, 255, 0.8) !important;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             margin: 0.125rem 0.5rem;
@@ -141,7 +141,7 @@
         }
 
         .sidebar-divider {
-            border-color: rgba(255,255,255,0.1);
+            border-color: rgba(255, 255, 255, 0.1);
             margin: 1rem 0.5rem;
         }
 
@@ -151,7 +151,7 @@
             left: 0;
             right: 0;
             padding: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .toggle-btn {
@@ -217,15 +217,15 @@
             .sidebar {
                 transform: translateX(-100%);
             }
-            
+
             .sidebar.mobile-open {
                 transform: translateX(0);
             }
-            
+
             .main-content {
                 margin-left: 0;
             }
-            
+
             .mobile-toggle {
                 display: block !important;
             }
@@ -241,7 +241,7 @@
 
         .topbar {
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 999;
         }
 
@@ -261,6 +261,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Mobile Toggle Button -->
     <button class="mobile-toggle position-fixed top-3 start-3 z-1000" id="mobileToggle">
@@ -283,14 +284,16 @@
             <!-- Main Navigation -->
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.dashboard')) active @endif"
+                        href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.users.*')) active @endif" href="{{ route('admin.users.index') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.users.*')) active @endif"
+                        href="{{ route('admin.users.index') }}">
                         <i class="fas fa-users"></i>
                         <span class="nav-text">User Management</span>
                         <!--<span class="nav-badge">@yield('active-users', 'N/A')</span>-->
@@ -298,23 +301,26 @@
 
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.buses.*')) active @endif" href="{{ route('admin.buses.index') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.buses.*')) active @endif"
+                        href="{{ route('admin.buses.index') }}">
                         <i class="fas fa-bus"></i>
                         <span class="nav-text">Bus Management</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.routes.*')) active @endif" href="{{ route('admin.routes.index') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.routes.*')) active @endif"
+                        href="{{ route('admin.routes.index') }}">
                         <i class="fas fa-route"></i>
                         <span class="nav-text">Routes & Schedules</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.bookings.*')) active @endif" href="{{ route('admin.bookings.index') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.bookings.*')) active @endif"
+                        href="{{ route('admin.bookings.index') }}">
                         <i class="fas fa-ticket-alt"></i>
                         <span class="nav-text">Bookings</span>
                         <!--<span class="nav-badge">@yield('todays-booking', 'N/A')</span> -->
@@ -328,12 +334,13 @@
             <!-- Analytics Section -->
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('admin.reports.*')) active @endif" href="{{ route('admin.reports.index') }}">
+                    <a class="nav-link @if(request()->routeIs('admin.reports.*')) active @endif"
+                        href="{{ route('admin.reports.index') }}">
                         <i class="fas fa-chart-bar"></i>
                         <span class="nav-text">Reports & Analytics</span>
                     </a>
                 </li>
-                
+
                 <!--
                 <li class="nav-item">
                     <a class="nav-link" href="#">
@@ -354,7 +361,7 @@
             <hr class="sidebar-divider">
 
             <!-- System Section -->
-            
+
             <!--
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -397,9 +404,12 @@
                         <i class="fas fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}"><i
+                                    class="fas fa-user me-2"></i>Profile</a></li>
                         {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li> --}}
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -423,11 +433,12 @@
                     <h4 class="mb-0 text-dark">@yield('page-title', 'Dashboard')</h4>
                     <small class="text-muted">@yield('page-subtitle', 'Welcome to Admin Panel')</small>
                 </div>
-                
+
                 <div class="d-flex align-items-center gap-3">
                     <!-- Notifications -->
                     {{-- <div class="dropdown position-relative">
-                        <a class="nav-link text-dark position-relative" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link text-dark position-relative" href="#" role="button"
+                            data-bs-toggle="dropdown">
                             <i class="fas fa-bell fa-lg"></i>
                             <span class="notification-badge">3</span>
                         </a>
@@ -436,7 +447,9 @@
                             <li><a class="dropdown-item" href="#">New booking received</a></li>
                             <li><a class="dropdown-item" href="#">System update available</a></li>
                             <li><a class="dropdown-item" href="#">New user registered</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item text-center" href="#">View All</a></li>
                         </ul>
                     </div> --}}
@@ -465,7 +478,8 @@
 
                     <!-- User Menu -->
                     <div class="dropdown">
-                        <a class="nav-link text-dark d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link text-dark d-flex align-items-center" href="#" role="button"
+                            data-bs-toggle="dropdown">
                             <div class="user-avatar me-2" style="width: 35px; height: 35px; font-size: 0.9rem;">
                                 {{ substr(Auth::user()->name, 0, 1) }}
                             </div>
@@ -473,9 +487,13 @@
                             <i class="fas fa-chevron-down ms-2"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                            {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li> --}}
-                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.profile.index') }}"><i
+                                        class="fas fa-user me-2"></i>My Profile</a></li>
+                            {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            --}}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -498,17 +516,17 @@
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const mobileToggle = document.getElementById('mobileToggle');
 
             // Toggle sidebar
-            sidebarToggle.addEventListener('click', function() {
+            sidebarToggle.addEventListener('click', function () {
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('expanded');
-                
+
                 // Rotate chevron icon
                 const icon = this.querySelector('i');
                 icon.classList.toggle('fa-chevron-left');
@@ -516,12 +534,12 @@
             });
 
             // Mobile toggle
-            mobileToggle.addEventListener('click', function() {
+            mobileToggle.addEventListener('click', function () {
                 sidebar.classList.toggle('mobile-open');
             });
 
             // Close sidebar on mobile when clicking outside
-            document.addEventListener('click', function(event) {
+            document.addEventListener('click', function (event) {
                 if (window.innerWidth <= 768) {
                     if (!sidebar.contains(event.target) && !mobileToggle.contains(event.target)) {
                         sidebar.classList.remove('mobile-open');
@@ -534,7 +552,7 @@
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
-                
+
                 const currentPath = window.location.pathname;
                 document.querySelectorAll('.nav-link').forEach(link => {
                     if (link.href && link.href.includes(currentPath)) {
@@ -548,4 +566,5 @@
     </script>
     @stack('scripts')
 </body>
+
 </html>

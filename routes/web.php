@@ -118,6 +118,9 @@ Route::prefix('admin')
         Route::get('reports/export/pdf', [AdminReportController::class, 'exportPdf'])->name('reports.export.pdf');
         Route::post('reports/clear-cache', [AdminReportController::class, 'clearCache'])
             ->name('reports.clear-cache');
+
+        Route::get('/profile', [OperatorProfileController::class, 'index'])->name('profile.index');
+        Route::post('/profile/update', [OperatorProfileController::class, 'update'])->name('profile.update');
     });
 
 
