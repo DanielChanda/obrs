@@ -24,7 +24,11 @@ class BusController extends Controller
      */
     public function create()
     {
-        //
+        $operators = User::where('role', 'operator')
+            ->get()
+            ->pluck('name', 'id');
+
+        return view('admin.buses.create', compact('operators'));
     }
 
     /**
@@ -32,7 +36,18 @@ class BusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'bus_number' => ['required', 'string', 'max:255', Rule::unique('buses')],
+            'bus_type' => 'required|string|max:255',
+            'capacity' => 'required|integer|min:1',
+            'operator_id' => 'required|exists:users,id',
+            'status' => 'required|in:active,inactive',
+        ]);
+
+        $bus = Bus::create($validated);
+
+        return redirect()->route('admin.buses.show', $bus->id)
+            ->with('success', 'Bus created successfully.');
     }
 
     /**

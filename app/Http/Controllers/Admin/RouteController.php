@@ -22,7 +22,11 @@ class RouteController extends Controller
      */
     public function create()
     {
-        //
+        $operators = \App\Models\User::where('role', 'operator')
+            ->get()
+            ->pluck('name', 'id');
+
+        return view('admin.routes.create', compact('operators'));
     }
 
     /**
@@ -30,7 +34,16 @@ class RouteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'origin' => 'required|string|max:100',
+            'destination' => 'required|string|max:100|different:origin',
+            'distance' => 'nullable|integer|min:1|max:5000',
+            'operator_id' => 'required|exists:users,id',
+        ]);
+
+        $route = \App\Models\Route::create($request->only(['origin','destination','distance','operator_id']));
+
+        return redirect()->route('admin.routes.show', ['route' => $route])->with('success', 'Route created successfully!');
     }
 
     /**
